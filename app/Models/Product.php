@@ -9,15 +9,19 @@ class Product extends Model
 {
     use HasFactory;
 
-    public function getCategory() {
-        //$category = Category::where('id', $this->category_id)->get()->first();
-        //dd($category);
-        return Category::find($this->category_id);
-    }
-
-    public function category() {
+    public function category() 
+    {
         return $this->belongsTo(Category::class);
     }
 
+    public function getPriceForCount()
+    {
+        if (!is_null($this->pivot)) 
+        {
+            return $this->price * $this->pivot->count;
+        }
+
+        return $this->price;
+    }
 
 }
