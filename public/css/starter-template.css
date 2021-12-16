@@ -14,3 +14,7 @@ table {
 div.thumbnail img {
     max-height: 200px;
 }
+
+.form-inline form {
+    display: inline;
+}
