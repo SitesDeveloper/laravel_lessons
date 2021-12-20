@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
 {
@@ -41,6 +42,10 @@ class BasketController extends Controller
             session()->flash("success","Добавлен товар ".$product->name);
         }
 
+        if (Auth::check()) {
+            $order->user_id = Auth::id();
+            $order->save();
+        }
 
         return redirect()->route("basket");
     }
