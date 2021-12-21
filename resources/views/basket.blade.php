@@ -24,7 +24,7 @@
                             <td>
                                 <a href="{{ route('product', [$product->category->code, $product->code]) }}">
                                     <img height="56px"
-                                        src="http://laravel-diplom-1.rdavydov.ru/storage/products/iphone_x.jpg">
+                                        src="{{ Storage::url($product->image) }}">
                                     {{ $product->name }}
                                 </a>
                             </td>
