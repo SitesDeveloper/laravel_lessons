@@ -34,7 +34,7 @@
                     </ul>
 
                     <ul class="nav navbar-nav">
-                        <li><a href="http://laravel-diplom-1.rdavydov.ru/admin/categories">Категории</a></li>
+                        <li><a href="{{route("categories.index")}}">Категории</a></li>
                         <li><a href="http://laravel-diplom-1.rdavydov.ru/admin/products">Товары</a></li>
                         <li><a href="http://laravel-diplom-1.rdavydov.ru/admin/orders">Заказы</a></li>
                     </ul>
