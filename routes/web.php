@@ -1,13 +1,14 @@
 <?php
 namespace App;
 
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\BasketController;
-use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\BasketController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Person\OrderController as PersonOrderController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,18 +32,31 @@ Auth::routes([
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('get-logout');
 
-Route::group([
-    "middleware" => "auth",
-    "namespace" => "Admin",
-    "prefix" => "admin"
-], function () {
-    Route::group(["middleware" => "is_admin"], function () {
-        Route::get('/orders', [OrderController::class, 'index'])->name('home');
+Route::middleware(["auth"])->group(function(){
+    Route::group([
+        "namespace" => "Person",
+        "prefix" => "person",
+        "as" => "person."
+    ],function(){
+        Route::get('/orders', [PersonOrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}', [PersonOrderController::class, 'show'])->name('orders.show');
+    });
+
+    Route::group([
+        "namespace" => "Admin",
+        "prefix" => "admin"
+    ], function () {
+        Route::group(["middleware" => "is_admin"], function () {
+            Route::get('/orders', [AdminOrderController::class, 'index'])->name('home');
+            Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+        });
+        
+        Route::resource("categories", "CategoryController");
+        Route::resource("products", "ProductController");
     });
     
-    Route::resource("categories", "CategoryController");
-    Route::resource("products", "ProductController");
 });
+
 
 Route::get('/', [MainController::class, 'index'])->name('index');
 Route::get('/categories', [MainController::class, 'categories'])->name('categories');
