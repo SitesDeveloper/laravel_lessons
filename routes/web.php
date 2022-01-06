@@ -4,11 +4,12 @@ namespace App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\ResetController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Person\OrderController as PersonOrderController;
-use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Person\OrderController as PersonOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,8 @@ Auth::routes([
 ]);
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('get-logout');
+Route::get('/reset', [ResetController::class, 'reset'])->name('reset');
+
 
 Route::middleware(["auth"])->group(function(){
     Route::group([
