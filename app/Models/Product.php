@@ -9,7 +9,10 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'code', 'price', 'category_id', 'description', 'image'];
+    protected $fillable = [
+        'name', 'code', 'price', 'category_id', 'description', 'image', 
+        'new', 'hit','recomend'
+    ];
 
     public function category() 
     {
@@ -24,6 +27,32 @@ class Product extends Model
         }
 
         return $this->price;
+    }
+
+    public function setNewAttribute($value) {
+        $this->attributes["new"] = ($value==="on") ? 1 : 0;
+        //dd($this->attributes["new"]);
+    }
+
+    public function setHitAttribute($value) {
+        $this->attributes["hit"] = ($value==="on") ? 1 : 0;
+    }
+
+    public function setRecomendAttribute($value) {
+        $this->attributes["recomend"] = ($value==="on") ? 1 : 0;
+    }
+
+
+    public function isNew() {
+        return $this->new == 1;
+    }
+
+    public function isHit() {
+        return $this->hit == 1;
+    }
+
+    public function isRecomend() {
+        return $this->recomend == 1;
     }
 
 }
