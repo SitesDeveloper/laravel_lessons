@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use App\Http\Requests\ProductFilterRequest;
 
 class MainController extends Controller
@@ -12,9 +14,15 @@ class MainController extends Controller
     
     public function index(ProductFilterRequest $request) 
     {
+        //Debugbar::info($request);
+
+        //Log::channel("single")->debug($request->ip());
+        //dd($request->ip());
         //dd(get_class_methods($request));
-        $productsQuery = Product::query();
+        $productsQuery = Product::with("category"); // query();
+        Debugbar::info($request->has("price_from"));
         if ($request->filled("price_from")) {
+            Debugbar::info($request->price_from);
             $productsQuery->where("price",">=",$request->price_from);
         }
         if ($request->filled("price_to")) {
@@ -26,7 +34,7 @@ class MainController extends Controller
                 $productsQuery->where($field,1);
             }
 
-        $products = $productsQuery->paginate(3)->withPath("?".$request->getQueryString());
+        $products = $productsQuery->paginate(6)->withPath("?".$request->getQueryString());
         return view('index')->with(['products'=>$products]);
     }
 
