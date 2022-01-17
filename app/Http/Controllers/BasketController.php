@@ -41,6 +41,7 @@ class BasketController extends Controller
             $order->products()->attach($productId);
             session()->flash("success","Добавлен товар ".$product->name);
         }
+        Order::changeFullSum($product->price);
 
         if (Auth::check()) {
             $order->user_id = Auth::id();
@@ -67,6 +68,7 @@ class BasketController extends Controller
                     session()->flash("warning","Товар ".$product->name." кол-во уменьшено");
                     $pivotRow->Update();
                 }
+                Order::changeFullSum(-$product->price);
             }
         }
 
@@ -95,6 +97,7 @@ class BasketController extends Controller
         $isOk = $order->saveOrder($request->name, $request->phone);
         if ($isOk) {
             session()->flash("success", "Заказ создан.");
+            Order::eraseFullSum();
         } else {
             session()->flaash("warning", "Ошибка при сохранении заказа.");
         }

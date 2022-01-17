@@ -5,7 +5,7 @@
                 <span class="badge badge-success">Новинка</span>
             @endif
 
-            @if($product->isRecomend())
+            @if($product->isRecommend())
                 <span class="badge badge-warning">Рекомендуем</span>
             @endif
 
@@ -21,7 +21,7 @@
                 <form method="POST" action="{{route('basket-add', $product->id)}}">
                     @csrf
                     <button type="submit" class="btn btn-primary" role="button">В корзину</button>
-                <a href="{{route('product', [$product->category->code, $product->code])}}" class="btn btn-default"
+                <a href="{{route('product',  [isset($category) ? $category->code : $product->category->code, $product->code])}}" class="btn btn-default"
                     role="button">Подробнее</a>
                 </form>
             </p>

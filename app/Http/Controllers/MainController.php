@@ -29,9 +29,11 @@ class MainController extends Controller
             $productsQuery->where("price","<=",$request->price_to);
         }
 
-        foreach(["hit","new","recomend"] as $field)
+        foreach(["hit","new","recommend"] as $field)
             if ($request->has($field)) {
-                $productsQuery->where($field,1);
+                $productsQuery->$field();
+                //$productsQuery->where($field,1);
+
             }
 
         $products = $productsQuery->paginate(6)->withPath("?".$request->getQueryString());

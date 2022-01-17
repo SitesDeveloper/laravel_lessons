@@ -16,7 +16,7 @@ class AlterTableProducts extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->tinyInteger("new")->default(0);
             $table->tinyInteger("hit")->default(0);
-            $table->tinyInteger("recomend")->default(0);
+            $table->tinyInteger("recommend")->default(0);
         });
     }
 
@@ -30,7 +30,7 @@ class AlterTableProducts extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->dropColumn("new");
             $table->dropColumn("hit");
-            $table->dropColumn("recomend");
+            $table->dropColumn("recommend");
         });
     }
 }

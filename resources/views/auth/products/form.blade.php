@@ -92,7 +92,7 @@
                 @foreach ([
                     'new'=>'Новинка',
                     'hit'=>'Хит',
-                    'recomend' => 'Рекомендуемое'
+                    'recommend' => 'Рекомендуемое'
                     ] as $field => $title)
                     <div class="form-group row">
                         <label for="code" class="col-sm-2 col-form-label">{{$title}} </label>
