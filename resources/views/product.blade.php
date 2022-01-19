@@ -3,11 +3,16 @@
 
 @section('content')
     <h1>{{ $product->name }}</h1>
+    <h2>{{ $product->category->name}}</h2>
     <p>Цена: <b>{{ $product->price }} руб.</b></p>
-    <img src="http://laravel-diplom-1.rdavydov.ru/storage/products/iphone_x.jpg">
+    <img src="{{Storage::url($product->image)}}">
     <p>{{ $product->description }}</p>
     <form method="POST" action="{{ route('basket-add', $product->id) }}">
         @csrf
-        <button type="submit" class="btn btn-success" role="button">Добавить в корзину</button>
+        @if ($product->isAvailable())
+            <button type="submit" class="btn btn-success" role="button">Добавить в корзину</button>
+        @else
+            Не доступен
+        @endif
     </form>
 @endsection

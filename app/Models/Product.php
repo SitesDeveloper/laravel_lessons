@@ -4,16 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     //protected $table = "product";
 
     protected $fillable = [
         'name', 'code', 'price', 'category_id', 'description', 'image', 
-        'new', 'hit','recommend'
+        'new', 'hit','recommend', 'count'
     ];
 
     public function category() 
@@ -43,6 +44,9 @@ class Product extends Model
         return $query->where("recommend",1);
     }
 
+    public function scopeByCode($query, $code) {
+        return $query->where("code", $code);
+    }
 
     public function setNewAttribute($value) {
         $this->attributes["new"] = ($value==="on") ? 1 : 0;
@@ -58,6 +62,10 @@ class Product extends Model
     }
 
   
+    public function isAvailable(){
+        return !$this->trashed() && $this->count > 0;
+    }
+
     public function isNew() {
         return $this->new == 1;
     }
