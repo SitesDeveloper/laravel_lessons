@@ -233,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         
         'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
+        //'Basket' => App\Classes\Basket::class,
     ],
 
 ];

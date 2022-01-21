@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 class BasketIsNotEmpty
 {
