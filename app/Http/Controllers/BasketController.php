@@ -21,7 +21,8 @@ class BasketController extends Controller
 
     public function basketConfirm(Request $request)
     {
-        if ( (new Basket())->saveOrder($request->name, $request->phone) ) {
+        $email = Auth::check() ? Auth::user()->email : $request->email;
+        if ((new Basket())->saveOrder($request->name, $request->phone, $email)) {        
             Order::eraseFullSum();
         } 
 

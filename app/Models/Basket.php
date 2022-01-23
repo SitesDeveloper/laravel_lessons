@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Mail\OrderCreated;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,12 +34,15 @@ class Basket extends Model
         return $this->order;
     }
 
-    public function saveOrder($name, $phone) {
+    public function saveOrder($name, $phone, $email) {
 
-        if (!$this->isCountAvailable()) {
+        if (!$this->isCountAvailable(true)) {
             session()->flash("warning", "Недостаточное кол-во товара.");
             return false;
         }
+
+        Mail::to($email)->send(new OrderCreated($name, $this->order));
+
         $res = $this->order->saveOrder($name, $phone);
         if ($res) {
             session()->flash("success", "Заказ создан.");
@@ -48,11 +53,17 @@ class Basket extends Model
         return $res;
     }
 
-    public function isCountAvailable() {
+    public function isCountAvailable($updateCount = false) {
         foreach ($this->order->products as $orderProduct) {
             if ($orderProduct->count < $this->getPivotRow($orderProduct)->count)
                 return false;
+            if ($updateCount) {
+                $orderProduct->count -= $this->getPivotRow($orderProduct)->count;
+            }
         }
+        if ($updateCount)
+            $this->order->products->map->save();
+
         return true;
     }
 
