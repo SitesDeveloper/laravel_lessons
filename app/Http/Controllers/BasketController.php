@@ -2,62 +2,65 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\Basket;
 use App\Models\Order;
-use App\Models\Basket;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Barryvdh\Debugbar\Facades\Debugbar;
 
 class BasketController extends Controller
 {
-
     public function basket()
     {
+        //dd('basekt');
         $order = (new Basket())->getOrder();
-
         return view('basket', compact('order'));
     }
 
     public function basketConfirm(Request $request)
     {
         $email = Auth::check() ? Auth::user()->email : $request->email;
-        if ((new Basket())->saveOrder($request->name, $request->phone, $email)) {        
-            Order::eraseFullSum();
-        } 
+        if ((new Basket())->saveOrder($request->name, $request->phone, $email)) {
+            session()->flash('success', __('basket.you_order_confirmed'));
+        } else {
+            session()->flash('warning', __('basket.you_cant_order_more'));
+        }
 
-        return redirect()->route("index");
-    }    
+        Order::eraseOrderSum();
 
+        return redirect()->route('index');
+    }
 
     public function basketPlace()
     {
         $basket = new Basket();
         $order = $basket->getOrder();
-        if (!$basket->isCountAvailable()) {
-            session()->flash("warning", "Недостаточное кол-во товара на складе.");
-            return redirect()->route("basket");
+        if (!$basket->countAvailable()) {
+            session()->flash('warning', __('basket.you_cant_order_more'));
+            return redirect()->route('basket');
         }
-
-        return view('order', compact("order"));
+        return view('order', compact('order'));
     }
-
-
 
     public function basketAdd(Product $product)
     {
-        (new Basket(true))->addProduct($product);
+        $result = (new Basket(true))->addProduct($product);
 
-        return redirect()->route("basket");
+        if ($result) {
+            session()->flash('success', __('basket.added').$product->name);
+        } else {
+            session()->flash('warning', $product->name . __('basket.not_available_more'));
+        }
+
+        return redirect()->route('basket');
     }
 
     public function basketRemove(Product $product)
     {
         (new Basket())->removeProduct($product);
 
-        return redirect()->route("basket");
+        session()->flash('warning', __('basket.removed').$product->name);
+
+        return redirect()->route('basket');
     }
-
-    
-
 }

@@ -9,7 +9,7 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Basket extends Model
+class OldBasket extends Model
 {
     //use HasFactory;
 
@@ -37,20 +37,12 @@ class Basket extends Model
     public function saveOrder($name, $phone, $email) {
 
         if (!$this->isCountAvailable(true)) {
-            session()->flash("warning", "Недостаточное кол-во товара.");
             return false;
         }
 
         Mail::to($email)->send(new OrderCreated($name, $this->order));
 
-        $res = $this->order->saveOrder($name, $phone);
-        if ($res) {
-            session()->flash("success", "Заказ создан.");
-        } else {
-            session()->flash("warning", "Ошибка при сохранении заказа.");
-        }
-
-        return $res;
+        return $this->order->saveOrder($name, $phone);
     }
 
     public function isCountAvailable($updateCount = false) {

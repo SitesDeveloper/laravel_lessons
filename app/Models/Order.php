@@ -37,7 +37,7 @@ class Order extends Model
 
     }
 
-    public static function eraseFullSum() {
+    public static function eraseOrderSum() {
         session()->forget('full_order_sum');
     }
 

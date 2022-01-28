@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use App\Http\Requests\SubscriptionRequest;
@@ -17,14 +18,11 @@ class MainController extends Controller
     public function index(ProductFilterRequest $request) 
     {
         //Debugbar::info($request);
-
         //Log::channel("single")->debug($request->ip());
-        //dd($request->ip());
-        //dd(get_class_methods($request));
         $productsQuery = Product::with("category"); // query();
-        Debugbar::info($request->has("price_from"));
+        //Debugbar::info($request->has("price_from"));
         if ($request->filled("price_from")) {
-            Debugbar::info($request->price_from);
+            //Debugbar::info($request->price_from);
             $productsQuery->where("price",">=",$request->price_from);
         }
         if ($request->filled("price_to")) {
@@ -72,8 +70,16 @@ class MainController extends Controller
             'product_id' => $product->id,
         ]);
 
-        return redirect()->back()->with('success', 'Спасибо, мы сообщим вам о поступлении товара');
+        return redirect()->back()->with('success', __('product.we_will_update'));
     }
 
-
+    public function changeLocale($locale) {
+        $availableLocales = ['ru', 'en'];
+        if (!in_array($locale, $availableLocales)) {
+            $locale = config('app.locale');
+        }
+        session(['locale' => $locale]);
+        App::setLocale($locale);
+        return redirect()->back();
+    }
 }

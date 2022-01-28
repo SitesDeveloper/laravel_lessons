@@ -1,5 +1,5 @@
 @extends('layouts.master', ['file'=>'category']);
-@section('title', "Категория ". $category->name)
+@section('title', __('main.category') . $category->name)
 
 @section('content')
         <h1>

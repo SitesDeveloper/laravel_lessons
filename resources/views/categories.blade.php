@@ -1,5 +1,5 @@
 @extends('layouts.master', ['file'=>'categories']);
-@section('title', 'Все категории')
+@section('title', __('main.all_categories'))
 
 @section('content')
     @foreach ($categories as $category)

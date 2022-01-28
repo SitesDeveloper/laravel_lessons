@@ -19,17 +19,12 @@ class BasketIsNotEmpty
     public function handle(Request $request, Closure $next)
     {
 
-        $orderId = session("order_id");
+        $orderId = session("orderId");
         if (!is_null($orderId) && Order::getFullSum()>0) {
-            //$order = Order::findOrFail($orderId);
-            //if ($order->products->count() > 0) {
-                //return $next($request);
-            //}
-
             return $next($request);
         }
 
-        session()->flash("warning", "Ваша корзина пуста");
+        session()->flash('warning', __('basket.cart_is_empty'));
         return redirect()->route("index");
     }
 }
