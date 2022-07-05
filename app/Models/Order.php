@@ -55,7 +55,7 @@ class Order extends Model
             $this->phone = $phone;
             $this->status = 1;
             $this->save();
-            session()->forget("order_id");
+            session()->forget("orderId");
             return true;
         } else 
         {

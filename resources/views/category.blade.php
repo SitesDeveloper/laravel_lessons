@@ -1,12 +1,12 @@
 @extends('layouts.master', ['file'=>'category']);
-@section('title', __('main.category') . $category->name)
+@section('title', __('main.category') . $category->__("name"))
 
 @section('content')
         <h1>
-            {{ $category->name }} ({{$category->products->count()}})
+            {{ $category->__("name") }} ({{$category->products->count()}})
         </h1>
         <p>
-            {{ $category->description }}
+            {{ $category->__("description") }}
         </p>
 
         <a href="/categories">Все категории</a>
