@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Currency;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
-use App\Models\Currency;
+use App\Services\CurrencyRates;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -18,6 +19,8 @@ class MainController extends Controller
     
     public function index(ProductFilterRequest $request) 
     {
+        //\App\Services\CurrencyRates::getRates();
+
         //Debugbar::info($request);
         //Log::channel("single")->debug($request->ip());
         $productsQuery = Product::with("category"); // query();
