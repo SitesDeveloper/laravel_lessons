@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
+use App\Models\Currency;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -82,4 +83,11 @@ class MainController extends Controller
         App::setLocale($locale);
         return redirect()->back();
     }
+
+    public function changeCurrency($currencyCode) {
+        $currency = Currency::byCode($currencyCode)->firstOrFail();
+        session(['currency' => $currency->code]);
+        return redirect()->back();
+    }
+
 }
