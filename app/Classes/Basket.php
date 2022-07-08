@@ -82,9 +82,7 @@ class Basket
         if ($this->order->products->contains($product)) {
             $pivotRow = $this->order->products->where('id', $product->id)->first();
             if ($pivotRow->countInOrder < 2) {
-                //dd($product, $this->order->products);
                 $indx =  $this->order->products->search($pivotRow);
-                //dd();
                 $this->order->products->pull($indx); //$product
                 
             } else {
