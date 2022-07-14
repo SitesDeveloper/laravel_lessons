@@ -96,22 +96,22 @@
                     </div>
                 </div>
                 <br>
-                <div class="input-group row">
-                    <label for="price" class="col-sm-2 col-form-label">Цена: </label>
-                    <div class="col-sm-6">
-                        @include("auth.layouts.error", ["fieldName" => "price"])
-                        <input type="text" class="form-control" name="price" id="price"
-                               value="{{old("price", isset($product) ? $product->price : null)}}">
-                    </div>
-                </div>
-                <br>
 
                 <div class="input-group row">
-                    <label for="count" class="col-sm-2 col-form-label">Кол-во: </label>
+                    <label for="category_id" class="col-sm-2 col-form-label">Свойства товара: </label>
                     <div class="col-sm-6">
-                        @include("auth.layouts.error", ["fieldName" => "count"])
-                        <input type="text" class="form-control" name="count" id="count"
-                               value="{{old("count", isset($product) ? $product->count : null)}}">
+                        @include('auth.layouts.error', ['fieldName' => 'property_id[]'])
+                        <select name="property_id[]" multiple>
+                            @foreach($properties as $property)
+                                <option value="{{ $property->id }}"
+                                    @isset($product)
+                                        @if($product->properties->contains($property->id))
+                                            selected
+                                        @endif
+                                    @endisset
+                                >{{ $property->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <br>
@@ -129,7 +129,7 @@
                                 class="form-control" 
                                 name="{{$field}}" id="{{$field}}"
                                 @if(isset($product) && $product->$field === 1)
-                                   checked="'checked"
+                                   checked="checked"
                                 @endif
                             >
                         </div>

@@ -33,7 +33,7 @@ class Product extends Model
     //TODO: check table name and fields
     public function properties()
     {
-        return $this->belongsToMany(Property::class);
+        return $this->belongsToMany(Property::class, "property_product")->withTimestamps();
     }
 
 

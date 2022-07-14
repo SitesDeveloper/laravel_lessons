@@ -1,6 +1,6 @@
 @extends('auth.layouts.master')
 
-@section('title', 'Варианты свойств')
+@section('title', 'Варианты свойств ' )
 
 @section('content')
     <div class="col-md-12">
@@ -24,7 +24,7 @@
             @foreach($propertyOptions as $propertyOption)
                 <tr>
                     <td>{{ $propertyOption->id }}</td>
-                    <td>{{ $property->name }}</td>
+                    <td>{{ $propertyOption->property->name }}</td>
                     <td>{{ $propertyOption->name }}</td>
                     <td>
                         <div class="btn-group" role="group">
