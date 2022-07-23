@@ -37,16 +37,6 @@ class Product extends Model
     }
 
 
-    public function getPriceForCount()
-    {
-        if (!is_null($this->pivot)) 
-        {
-            return $this->price * $this->pivot->count;
-        }
-
-        return $this->price;
-    }
-
     public function scopeHit($query) {
         return $query->where("hit",1);
     }
@@ -77,10 +67,6 @@ class Product extends Model
     }
 
   
-    public function isAvailable(){
-        return !$this->trashed() && $this->count > 0;
-    }
-
     public function isNew() {
         return $this->new == 1;
     }

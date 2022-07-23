@@ -13,24 +13,24 @@ class Subscription extends Model
     use HasFactory;
 
     public $fillable = [
-        "email", "product_id"
+        "email", "sku_id"
     ];
 
-    public function scopeActiveByProductId($query, $productId)
+    public function scopeActiveByProductId($query, $skuId)
     {
-        return $query->where('status', 0)->where('product_id', $productId);
+        return $query->where('status', 0)->where('sku_id', $skuId);
     }
 
-    public function product() {
-        $this->belongsTo(Product::class);
+    public function sku() {
+        $this->belongsTo(Sku::class);
     }
 
-    public static function sendEmailsBySubscription(Product $product)
+    public static function sendEmailsBySubscription(Sku $sku)
     {
-        $subscriptions = self::activeByProductId($product->id)->get();
+        $subscriptions = self::activeBySkuId($sku->id)->get();
 
         foreach($subscriptions as $subscription) {
-            Mail::to($subscription->email)->send(new SendSubscriptionMessage($product));
+            Mail::to($subscription->email)->send(new SendSubscriptionMessage($sku));
             $subscription->status = 1;
             $subscription->save();
         }

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Classes\Basket;
+use App\Models\Sku;
 use App\Models\Order;
+use App\Classes\Basket;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,24 +41,24 @@ class BasketController extends Controller
         return view('order', compact('order'));
     }
 
-    public function basketAdd(Product $product)
+    public function basketAdd(Sku $sku)
     {
-        $result = (new Basket(true))->addProduct($product);
+        $result = (new Basket(true))->addSku($sku);
 
         if ($result) {
-            session()->flash('success', __('basket.added').$product->name);
+            session()->flash('success', __('basket.added').$sku->product->name);
         } else {
-            session()->flash('warning', $product->name . __('basket.not_available_more'));
+            session()->flash('warning', $sku->product->name . __('basket.not_available_more'));
         }
 
         return redirect()->route('basket');
     }
 
-    public function basketRemove(Product $product)
+    public function basketRemove(Sku $sku)
     {
-        (new Basket())->removeProduct($product);
+        (new Basket())->removeSku($sku);
 
-        session()->flash('warning', __('basket.removed').$product->name);
+        session()->flash('warning', __('basket.removed').$sku->product->name);
 
         return redirect()->route('basket');
     }

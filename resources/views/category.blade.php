@@ -13,8 +13,8 @@
 
 
         <div class="row">
-            @foreach ($category->products as $product)
-                @include('layouts.card', ['product'=>$product])    
+            @foreach ($category->products->map->skus->flatten() as $sku)
+                @include('layouts.card', compact("sku"))    
             @endforeach
         </div>
 @endsection

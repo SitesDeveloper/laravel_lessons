@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Sku;
 use App\Classes\Basket;
 use App\Models\Product;
 use App\Observers\ProductObserver;
@@ -42,5 +43,6 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         Product::observe(ProductObserver::class);
+        //Sku::observe(ProductObserver::class);
     }
 }
