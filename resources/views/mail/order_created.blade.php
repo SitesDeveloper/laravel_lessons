@@ -12,7 +12,7 @@
                     {{ $sku->product->__("name") }}
                 </a>
             </td>
-            <td><span class="badge">{{ $sku->->countInOrder }}</span>
+            <td><span class="badge">{{ $sku->countInOrder }}</span>
                 <div class="btn-group form-inline">
                     {!! $sku->product->__("description") !!}
                 </div>
