@@ -40,5 +40,5 @@
             @include('layouts.card', compact('sku'))
         @endforeach
     </div>
-    {{-- {{ $products->links() }} --}}
+    {{ $skus->links() }}
 @endsection

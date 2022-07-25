@@ -34,10 +34,10 @@ Route::get('locale/{locale}', [MainController::class, 'changeLocale'])->name('lo
 Route::get('currency/{currencyCode}', 'MainController@changeCurrency')->name('currency');
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('get-logout');
-Route::get('/reset', [ResetController::class, 'reset'])->name('reset');
 
 Route::middleware((["set_locale"]))->group(function () {
 
+    Route::get('/reset', [ResetController::class, 'reset'])->name('reset');
     Route::middleware(["auth"])->group(function () {
         Route::group([
             "namespace" => "Person",
