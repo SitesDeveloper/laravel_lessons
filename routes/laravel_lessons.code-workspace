@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": ".."
+		},
+		{
+			"path": "../../../../bible/public_html/bible-code"
 		}
 	],
 	"settings": {}

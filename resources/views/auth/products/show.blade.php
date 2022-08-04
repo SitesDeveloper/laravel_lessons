@@ -65,5 +65,6 @@
             </tr>            
             </tbody>
         </table>
+        <a class="btn btn-info" href="{{ route("products.index")}}" >К списку</a>
     </div>
 @endsection
