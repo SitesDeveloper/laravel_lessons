@@ -69,7 +69,7 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         @else
-            <div>Вы используете купон {{ $order->coupon->code }}</div>
+            <div>@lang('basket.coupon.your_coupon') {{ $order->coupon->code }}</div>
         @endif
         <br>
         <div class="row">
