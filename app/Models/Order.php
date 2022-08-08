@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Sku;
 use App\Models\Currency;
+use App\Services\CurrencyConversion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -43,14 +44,22 @@ class Order extends Model
 
     }
 
-    public function getFullSum() 
+    public function getFullSum($withCoupon = true) 
     {
 
+        /* подсчет суммы в валюте заказа */
         $sum = 0;
         foreach ($this->skus as $sku) {
-            $sum += $sku->price * $sku->countInOrder;
+            //$sum += $sku->price * $sku->countInOrder;
+            $sum += $sku->getPriceInCurrency($this->currency) * $sku->countInOrder;
         }
 
+        if ($withCoupon && $this->hasCoupon()) {
+            $sum = $this->coupon->applyCost($sum, $this->currency);
+        }
+
+        /* сумма в валюте сессии сайта */
+        $sum = round(CurrencyConversion::convert($sum, $this->currency->code,  CurrencyConversion::getCurrentCurrencyFromSession()->code), 2);
         return $sum;
     }
 
@@ -73,5 +82,11 @@ class Order extends Model
 
         session()->forget('order');
         return true;
+    }
+
+
+    public function hasCoupon()
+    {
+        return $this->coupon;
     }
 }

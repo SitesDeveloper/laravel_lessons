@@ -2,8 +2,9 @@
 
 namespace App\Classes;
 
-use App\Models\Order;
 use App\Models\Sku;
+use App\Models\Order;
+use App\Models\Coupon;
 use App\Mail\OrderCreated;
 use App\Services\CurrencyConversion;
 use Illuminate\Support\Facades\Auth;
@@ -109,4 +110,15 @@ class Basket
 
         return true;
     }
+
+    public function setCoupon(Coupon $coupon)
+    {
+        $this->order->coupon()->associate($coupon);
+    }
+
+    public function clearCoupon()
+    {
+        $this->order->coupon()->dissociate();
+    }
+
 }

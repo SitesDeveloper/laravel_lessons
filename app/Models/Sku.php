@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Services\CurrencyConversion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Sku extends Model
 {
@@ -35,6 +36,13 @@ class Sku extends Model
         return $this->price;
     }
 
+    /* получить цену в валюте сессии */
+    public function getPriceAttribute($value) {
+        return round(CurrencyConversion::convert($value), 2);
+    }
 
-
+    /* получить цену в данной валюте */
+    public function getPriceInCurrency(Currency $currency) {
+        return round(CurrencyConversion::convert($this->price,  CurrencyConversion::getCurrentCurrencyFromSession()->code, $currency->code), 2);
+    }
 }

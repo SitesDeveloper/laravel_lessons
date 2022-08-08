@@ -34,6 +34,14 @@
                                 <td>{{ $sku->pivot->price * $sku->pivot->count }} {{ $order->currency->symbol }}</td>
                             </tr>
                         @endforeach
+                        @if($order->hasCoupon())
+                            <tr>
+                                <td colspan="3">Был использован купон: <a href="{{ route('coupons.show', $order->coupon) }}">{{ $order->coupon->code }}</a>
+                                   - {{ $order->coupon->description }}
+                                </td>
+                                <td>{{ $order->coupon->value }}</td>
+                            </tr>
+                        @endif
                         <tr>
                             <td colspan="3">Общая стоимость:</td>
                             <td>{{ $order->sum }} {{ $order->currency->symbol }}</td>
