@@ -11,11 +11,23 @@ class Sku extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ["product_id", "count", "price"];
+    //protected $visible = ['id', 'count', 'price', 'product_name'];
+    protected $hidden  = ['created_at','updated_at', 'deleted_at'];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('count', '>', 0);
+    }
+
+    public function getProductNameAttribute()
+    {
+        return $this->product->name;
+    }    
 
     public function propertyOptions()
     {
