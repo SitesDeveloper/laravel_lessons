@@ -1,14 +1,15 @@
 <?php
 namespace App;
 
-use App\Http\Controllers\Admin\OrderController as AdminOrderController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\BasketController;
-use App\Http\Controllers\MainController;
-use App\Http\Controllers\Person\OrderController as PersonOrderController;
-use App\Http\Controllers\ResetController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\ResetController;
+use App\Http\Controllers\BasketController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\MerchantController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Person\OrderController as PersonOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,9 @@ Route::middleware((["set_locale"]))->group(function () {
             Route::resource("properties", "PropertyController");
             Route::resource("properties/{property}/property-options", "PropertyOptionController");
             Route::resource("coupons", "CouponController");
+
+            Route::resource('merchants', 'MerchantController');
+            Route::get('merchant/{merchant}/update_token', [MerchantController::class, 'updateToken'])->name('merchants.update_token');
         });
 
     });
